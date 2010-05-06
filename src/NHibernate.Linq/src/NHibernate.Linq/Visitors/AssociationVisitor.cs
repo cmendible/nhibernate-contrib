@@ -20,13 +20,15 @@ namespace NHibernate.Linq.Visitors
 		private readonly IDictionary<string, IClassMetadata> _metaData;
 		private readonly IDictionary<System.Type, string> _proxyTypes;
 		private readonly IList<string> _associationPathsToInclude;
+		private readonly IDictionary<string, IList<string>> _addedAlias;
 
-		public AssociationVisitor(ISessionFactoryImplementor sessionFactory)
+		public AssociationVisitor(ISessionFactoryImplementor sessionFactory, IDictionary<string, IList<string>> addedAlias)
 		{
 			_sessionFactory = sessionFactory;
 			_metaData = _sessionFactory.GetAllClassMetadata();
 			_proxyTypes = _sessionFactory.GetProxyMetaData(_metaData);
 			_associationPathsToInclude = new List<string>();
+			_addedAlias = addedAlias;
 		}
 
 		private IClassMetadata GetMetaData(System.Type type)
@@ -96,7 +98,8 @@ namespace NHibernate.Linq.Visitors
 			if (metaData != null)
 			{
 				string associationPath = AssociationPathForEntity(expr);
-				return new EntityExpression(associationPath, expr.Member.Name, expr.Type, metaData, expr.Expression);
+				return new EntityExpression(associationPath, expr.Member.Name, expr.Type, metaData,
+					expr.Expression, _addedAlias);
 			}
 
 			string memberName;
@@ -115,7 +118,8 @@ namespace NHibernate.Linq.Visitors
 
 					EntityExpression elementExpression = null;
 					if (elementMetaData != null)
-						elementExpression = new EntityExpression(null, memberName, elementType, elementMetaData, null);
+						elementExpression = new EntityExpression(null, memberName, elementType, 
+							elementMetaData, null, _addedAlias);
 
 					return new CollectionAccessExpression(memberName, expr.Type, nhibernateType, parentExpression, elementExpression);
 				}
@@ -132,7 +136,7 @@ namespace NHibernate.Linq.Visitors
 			if (metaData != null)
 			{
 				string associationPath = _associationPathsToInclude.Contains(expr.Name) ? expr.Name : null;
-				return new EntityExpression(associationPath, expr.Name, expr.Type, metaData, null);
+				return new EntityExpression(associationPath, expr.Name, expr.Type, metaData, null, _addedAlias);
 			}
 
 			return expr;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using NHibernate.Engine;
 using NHibernate.Linq.Util;
@@ -45,7 +46,10 @@ namespace NHibernate.Linq
 		{
 			expression = Evaluator.PartialEval(expression);
 			expression = new BinaryBooleanReducer().Visit(expression);
-			expression = new AssociationVisitor((ISessionFactoryImplementor)session.SessionFactory).Visit(expression);
+
+			var addedAlias = new Dictionary<string, IList<string>>();
+			expression = new AssociationVisitor((ISessionFactoryImplementor)session.SessionFactory, addedAlias).Visit(expression);
+
 			expression = new InheritanceVisitor().Visit(expression);
 			expression = CollectionAliasVisitor.AssignCollectionAccessAliases(expression);
 			expression = new PropertyToMethodVisitor().Visit(expression);

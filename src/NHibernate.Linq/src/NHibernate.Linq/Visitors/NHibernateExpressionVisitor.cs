@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using NHibernate.Linq.Expressions;
@@ -10,6 +11,14 @@ namespace NHibernate.Linq.Visitors
 	[DebuggerStepThrough, DebuggerNonUserCode]
 	public class NHibernateExpressionVisitor : ExpressionVisitor
 	{
+		protected readonly IDictionary<string, IList<string>> _addedAlias;
+
+		public NHibernateExpressionVisitor() 
+			: base()
+		{
+			_addedAlias = new Dictionary<string, IList<string>>();
+		}
+
 		public override Expression Visit(Expression exp)
 		{
 			if (exp == null) return null;
@@ -40,7 +49,8 @@ namespace NHibernate.Linq.Visitors
 			Expression e = Visit(expr.Expression);
 			if (e != expr.Expression)
 			{
-				return new EntityExpression(expr.AssociationPath, expr.Alias, expr.Type, expr.MetaData, e);
+				return new EntityExpression(expr.AssociationPath, expr.Alias, 
+					expr.Type, expr.MetaData, e, _addedAlias);
 			}
 			return expr;
 		}

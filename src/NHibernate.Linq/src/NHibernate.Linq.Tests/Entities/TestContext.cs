@@ -23,5 +23,20 @@ namespace NHibernate.Linq.Tests.Entities
 		{
 			get { return Session.Linq<Timesheet>(); }
 		}
+
+		public IOrderedQueryable<Arm> Arms
+		{
+			get { return Session.Linq<Arm>(); }
+		}
+
+		public IOrderedQueryable<Hand> Hands
+		{
+			get { return Session.Linq<Hand>(); }
+		}
+
+		public IOrderedQueryable<Finger> Fingers
+		{
+			get { return Session.Linq<Finger>(); }
+		}
 	}
 }

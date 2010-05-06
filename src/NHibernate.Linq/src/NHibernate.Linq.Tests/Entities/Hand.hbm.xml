@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="NHibernate.Linq.Tests.Entities" assembly="NHibernate.Linq.Tests">
+  <class name="Hand" table="Hands">
+    <id name="Id">
+      <generator class="native" />
+    </id>
+    <many-to-one name="Thumb" cascade="All" column="ThumbFingerId" not-null="true" class="Finger" />
+    <many-to-one name="Index" cascade="All" column="IndexFingerId" not-null="true" class="Finger" />
+    <many-to-one name="Middle" cascade="All" column="MiddleFingerId" not-null="true" class="Finger" />
+    <many-to-one name="Ring" cascade="All" column="RingFingerId" not-null="true" class="Finger" />
+    <many-to-one name="Little" cascade="All" column="LittleFingerId" not-null="true" class="Finger" />
+  </class>
+</hibernate-mapping>

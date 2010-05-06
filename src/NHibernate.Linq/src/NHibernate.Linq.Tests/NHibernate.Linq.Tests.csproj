@@ -69,6 +69,9 @@
     <Compile Include="DynamicQuery.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="Entities\AnotherEntity.cs" />
+    <Compile Include="Entities\Arm.cs" />
+    <Compile Include="Entities\Finger.cs" />
+    <Compile Include="Entities\Hand.cs" />
     <Compile Include="Entities\IHaveName.cs" />
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\Person.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="PatientTests.cs" />
     <Compile Include="PropertyMethodMappingTests.cs" />
     <Compile Include="ProxiedEntityTests.cs" />
+    <Compile Include="QuerySameAliasWithDifferentPaths.cs" />
     <Compile Include="QueryUtilityTests.cs" />
     <Compile Include="RegresstionTests.cs" />
     <Compile Include="SelectionTests.cs" />
@@ -121,6 +125,9 @@
     <EmbeddedResource Include="Entities\Patient.hbm.xml" />
     <EmbeddedResource Include="Entities\ProxiedEntity.hbm.xml" />
     <EmbeddedResource Include="Entities\Person.hbm.xml" />
+    <EmbeddedResource Include="Entities\Arm.hbm.xml" />
+    <EmbeddedResource Include="Entities\Finger.hbm.xml" />
+    <EmbeddedResource Include="Entities\Hand.hbm.xml" />
     <Content Include="hibernate.cfg.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

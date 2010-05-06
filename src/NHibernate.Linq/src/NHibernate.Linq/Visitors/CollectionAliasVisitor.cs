@@ -39,7 +39,9 @@ namespace NHibernate.Linq.Visitors
 			if (String.IsNullOrEmpty(alias))
 				return expr;
 
-			elementExpression = new EntityExpression(elementExpression.AssociationPath, alias, elementExpression.Type, elementExpression.MetaData, elementExpression.Expression);
+			elementExpression = new EntityExpression(elementExpression.AssociationPath, alias, elementExpression.Type, 
+				elementExpression.MetaData, elementExpression.Expression, _addedAlias);
+
 			return new CollectionAccessExpression(expr.Name, expr.Type, expr.NHibernateType, expr.Expression, elementExpression);
 		}
 

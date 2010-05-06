@@ -298,6 +298,44 @@ namespace NHibernate.Linq.Tests
 
 			animals[1].Children = new[] { animals[5] }.ToList();
 
+			var fingers = new Finger[] 
+			{
+				new Finger() { Length = 1},
+				new Finger() { Length = 2},
+				new Finger() { Length = 3},
+				new Finger() { Length = 4},
+				new Finger() { Length = 5},
+				new Finger() { Length = 6},
+				new Finger() { Length = 7},
+				new Finger() { Length = 8},
+				new Finger() { Length = 9},
+				new Finger() { Length = 10},
+				new Finger() { Length = 100},
+				new Finger() { Length = 200},
+				new Finger() { Length = 300},
+				new Finger() { Length = 400},
+				new Finger() { Length = 500},
+				new Finger() { Length = 101},
+				new Finger() { Length = 202},
+				new Finger() { Length = 303},
+				new Finger() { Length = 404},
+				new Finger() { Length = 505}
+			};
+
+			var hands = new Hand[] 
+			{
+				new Hand() { Thumb = fingers[0], Index = fingers[1], Middle = fingers[2], Ring= fingers[3], Little= fingers[4]},
+				new Hand() { Thumb = fingers[5], Index = fingers[6], Middle = fingers[7], Ring= fingers[8], Little= fingers[9]},
+				new Hand() { Thumb = fingers[10], Index = fingers[11], Middle = fingers[12], Ring= fingers[13], Little= fingers[14]},
+				new Hand() { Thumb = fingers[0], Index = fingers[16], Middle = fingers[17], Ring= fingers[18], Little= fingers[19]}
+			};
+
+			var arms = new Arm[]
+			{ 
+				new Arm(){Description = "Left Arm", LeftHand = hands[0], RightHand = hands[1]},
+				new Arm(){Description = "Right Arm", LeftHand = hands[2], RightHand = hands[3]}
+			};
+
 			using (ISession session = CreateSession())
 			{
 				session.Delete("from Role");
@@ -306,6 +344,10 @@ namespace NHibernate.Linq.Tests
 				session.Delete("from Animal");
 				session.Delete("from Physician");
 				session.Delete("from Patient");
+
+				session.Delete("from Arm");
+				session.Delete("from Hand");
+				session.Delete("from Finger");
 				session.Flush();
 
 				foreach (Role role in roles)
@@ -319,6 +361,9 @@ namespace NHibernate.Linq.Tests
 
 				foreach (Animal animal in animals)
 					session.Save(animal);
+
+				foreach (Arm arm in arms)
+					session.Save(arm);
 
 				CreatePatientData(session);
 
